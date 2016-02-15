@@ -25,50 +25,6 @@ from .llvm.module import ModuleRef
 from .llvm.function import FunctionRef, ArgRef
 from .llvm.basic_block import BasicBlockRef
 
-#class _ArmCodeFlags(ctypes.Structure):
-#    _fields_ = [
-#        ("thumb",       ctypes.c_uint64, 1),
-#        ("veclen",      ctypes.c_uint64, 3),
-#        ("vecstride",   ctypes.c_uint64, 3),
-#        ("vfpen",       ctypes.c_uint64, 1),
-#        ("condexec",    ctypes.c_uint64, 8),
-#        ("bswap_code",  ctypes.c_uint64, 1),
-#        ("xscale_cpar", ctypes.c_uint64, 2),
-#        ("ns",          ctypes.c_uint64, 1)]
-#
-#class _X86CodeFlags(ctypes.Structure):
-#    _fields_ = [
-#        ("cpl", ctypes.c_uint64, 2),
-#        ("softmmu", ctypes.c_uint64, 1),
-#        ("inhibit_irq", c_uint64, 1),
-#        ("cs32", c_uint64, 1),
-#        ("ss32", c_uint64, 1),
-#        ("addseg", c_uint64, 1),
-#        ("pe", c_uint64, 1),
-#        ("tf", c_uint64, 1),
-#        ("mp", c_uint64, 1),
-#        ("em", c_uint64, 1),
-#        ("ts", c_uint64, 1),
-#        ("iopl", c_uint64, 2),
-#        ("lma", c_uint64, 1),
-#        ("cs64", c_uint64, 1),
-#        ("rf", c_uint64, 1),
-#        ("vm", c_uint64, 1),
-#        ("ac", c_uint64, 1),
-#        ("smm", c_uint64, 1),
-#        ("svme", c_uint64, 1),
-#        ("svmi", c_uint64, 1),
-#        ("osfxsr", c_uint64, 1),
-#        ("smap", c_uint64, 1),
-#        ("iobpt", c_uint64, 1)]
-#    
-#
-#class CodeFlags(ctypes.Union):
-#    _fields_ = [
-#        ("arm", _ArmCodeFlags),
-#        ("x86", _X86CodeFlags),
-#        ("_value", c_uint64)]
-
 class ArmCodeFlags():
     thumb = False
 
