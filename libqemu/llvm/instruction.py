@@ -83,6 +83,24 @@ class Opcode(Enum):
     INSERTVALUE    = 57
     LANDINGPAD     = 58
 
+def _get_opcode(value_ref):
+    return Opcode(lib.LLVMGetInstructionOpcode(value_ref))
+
+def _get_instruction(value_ref, module, bb):
+    try:
+        opcode = _get_opcode(value_ref)
+        return {
+            Opcode.PHI: PHINodeRef,
+            Opcode.CALL: CallOrInvokeInstructionRef,
+            Opcode.INVOKE: CallOrInvokeInstructionRef,        
+            Opcode.SWITCH: SwitchInstructionRef,
+            Opcode.ALLOCA: AllocaInstructionRef,
+            Opcode.FCMP: CompareInstructionRef,
+            Opcode.ICMP: CompareInstructionRef,
+        }[opcode](value_ref, module, bb)
+    except KeyError:
+        return InstructionRef(value_ref, module, bb)
+
 class InstructionRef(ValueRef):
     def __init__(self, ptr, module, bb):
         self.basic_block = bb
@@ -90,5 +108,21 @@ class InstructionRef(ValueRef):
 
     @property
     def opcode(self):
-        return Opcode(lib.LLVMGetInstructionOpcode(self))
+        return _get_opcode(self)
+
+class PHINodeRef(InstructionRef):
+    pass
+
+class CallOrInvokeInstructionRef(InstructionRef):
+    pass
+
+class SwitchInstructionRef(InstructionRef):
+    pass
+
+class CompareInstructionRef(InstructionRef):
+    pass
+
+class AllocaInstructionRef(InstructionRef):
+    pass
+
 
