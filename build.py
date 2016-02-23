@@ -2,6 +2,7 @@ import os
 import subprocess
 import glob
 import shutil
+import itertools
 
 CONFIGURE_PARAMS = ["--target-list=arm-lib", "--enable-lib"]
 
@@ -31,6 +32,10 @@ def main(args, env):
         subprocess.check_call([configure] + CONFIGURE_PARAMS, cwd = build_dir)
 
     subprocess.check_call(["make", "-j4"], cwd = build_dir)
+
+    libraries = itertools.chain.from_iterable([glob.glob(os.path.join(build_dir, "*-lib", "libqemu-*.%s" % x)) for x in ["so", "dll", "dylib"]])
+    for lib in libraries:
+        shutil.copy(lib, target_dir)
 
 def parse_args():
     return None

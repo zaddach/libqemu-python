@@ -76,7 +76,7 @@ class LibqemuBuildExt(build_ext):
         # HACK: this makes sure the library file (which is large) is only
         # included in binary builds, not source builds.
         self.distribution.package_data = {
-            "libqemu.binding": ["../../%s" % x for x in get_library_files()]
+            "libqemu.binding": ["*.dll", "*.so", "*.dylib"]
         }
 
 
@@ -85,7 +85,7 @@ class LibqemuInstall(install):
     # This seems to only be necessary on OSX.
     def run(self):
         self.distribution.package_data = {
-            "libqemu.binding": ["../../%s" % x for x in get_library_files()]
+            "libqemu.binding": ["*.dll", "*.so", "*.dylib"]
         }
         install.run(self)
 
