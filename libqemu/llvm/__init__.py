@@ -23,7 +23,7 @@ import llvmlite.binding.module as mod
 import subprocess
 import ctypes
 import os
-from ctypes import POINTER, c_uint
+from ctypes import POINTER, c_uint, c_char_p, c_int
 
 REQUIRED_LLVM_VERSION = "3.5"
 
@@ -59,7 +59,13 @@ def _load_library():
     lib.LLVMGetInstructionOpcode.restypes = c_uint
 
     lib.LLVMGetBasicBlockTerminator.argtypes = [LLVMBasicBlockRef]
-    lib.LLVMGetBasicBlockTerminator.restype= ffi.LLVMValueRef
+    lib.LLVMGetBasicBlockTerminator.restype = ffi.LLVMValueRef
+
+    lib.LLVMWriteBitcodeToFile.argtypes = [ffi.LLVMModuleRef, c_char_p]
+    lib.LLVMWriteBitcodeToFile.restype = c_int
+
+    lib.LLVMWriteBitcodeToFD.argtypes = [ffi.LLVMModuleRef, c_int, c_int, c_int]
+    lib.LLVMWriteBitcodeToFD.restype = c_int
 
     return lib
 

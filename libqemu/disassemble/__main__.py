@@ -52,6 +52,10 @@ def main(args, env):
     func = lq.gen_intermediate_code(args.address, flags)
     print(func)
 
+    if args.output:
+        with open(args.output, "wb") as file:
+            func.module.save(file)
+
 
 
 def parse_args():
@@ -60,6 +64,7 @@ def parse_args():
     parser.add_argument("--address", type = int, default = 0, help = "Code address of instruction")
     parser.add_argument("--endianness", default = "little", choices = ["little", "big"])
     parser.add_argument("--flag", dest = "flags", action = "append", default = [], help = "Architecture specific disassembly flags (i.e., 'thumb' for the arm architecture)")
+    parser.add_argument("-o", "--output", dest = "output", type = str, default = None, help = "File name to save LLVM bitcode to")
     parser.add_argument("bytes", type = str, default = None, help = "Binary opcode data written as hex bytes (i.e., \"ca fe ba be\")")
     args = parser.parse_args()
     return args

@@ -37,6 +37,16 @@ class ModuleRef(LLVMLiteModuleRef):
         """
         it = self._capi.LLVMPY_ModuleFunctionsIter(self)
         return _FunctionsIterator(it, module=self)
+
+    def save(self, fd):
+        if isinstance(fd, str):
+            err = lib.LLVMWriteBitcodeToFile(self, fd)
+        else:
+            if not isinstance(fd, int):
+                fd = fd.fileno()
+            err = lib.LLVMWriteBitcodeToFD(self, fd, False, False)
+        if err:
+            raise IOError(0, "Unknown error writing bitcode to file")
         
 
 
