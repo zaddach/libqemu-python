@@ -33,7 +33,7 @@ def main(args, env):
             if flag in ["thumb"]:
                 codeflags[flag] = True
             else:
-                raise SystemError("Invalid flag argument for %s architecture: '%s'" % (args.arch, flag))
+                raise ValueError("Invalid flag argument for %s architecture: '%s'" % (args.arch, flag))
         flags = ArmCodeFlags(**codeflags)
     elif args.arch == "i386":
         codeflags = {}
@@ -41,11 +41,11 @@ def main(args, env):
             if flags in []:
                 codeflags[flag] = True
             else:
-                raise SystemError("Invalid flag argument for %s architecture: '%s'" % (args.arch, flag))
+                raise ValueError("Invalid flag argument for %s architecture: '%s'" % (args.arch, flag))
         flags = I386CodeFlags(**codeflags)
     else:
         if args.flags:
-            raise SystemError("Flags for architecture %s are not yet implemented" % args.arch)
+            raise NotImplementedError("Flags for architecture %s are not yet implemented" % args.arch)
         flags = CodeFlags()
 
 
