@@ -10,11 +10,18 @@ The LLVM IR can then be inspected using this library and [llvmlite](https://gith
 If your distribution does not have a package for llvm 3.5, add the [LLVM nightly repo](http://llvm.org/apt/) to your sources list.
 Before compiling, some packets need to be installed. On Ubuntu, those are:
 
-  sudo apt-get install llvm-3.5 clang-3.5 libedit-dev
+  sudo apt-get install llvm-3.5 clang-3.5 libedit-dev zlib1g-dev libffi-dev libtinfo-dev
 
-Afterwards, you should be good to go!
+Afterwards, the module's installation should work:
 
   python3 setup.py install
+
+You can test your setup with:
+
+ python3 -m libqemu.disassemble --arch arm --flag thumb --address 4096 "08 1D"
+
+That should translate an ARM Thumb instruction set "add r0, r1, #4" to LLVM IR.
+
 
 
 

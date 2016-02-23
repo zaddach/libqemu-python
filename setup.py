@@ -97,7 +97,8 @@ cmdclass.update({'build': LibqemuBuild,
 
 packages = ['libqemu',
             'libqemu.llvm',
-            'libqemu.binding'
+            'libqemu.binding',
+            'libqemu.disassemble'
             ]
 
 install_requires = ["llvmlite <= 0.5.1"]
