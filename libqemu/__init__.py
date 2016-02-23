@@ -24,17 +24,29 @@ from ctypes import c_uint64, c_void_p, c_uint, c_bool, \
 from .llvm.module import ModuleRef
 from .llvm.function import FunctionRef, ArgRef
 from .llvm.basic_block import BasicBlockRef
+from .binding import _get_library
 
-class ArmCodeFlags():
-    thumb = False
-
+class CodeFlags():
     def __init__(self, *args, **kwargs):
         for arg in kwargs:
             setattr(self, arg, kwargs[arg])
 
     @property
     def _value(self):
+        return 0
+
+
+class ArmCodeFlags(CodeFlags):
+    thumb = False
+
+    @property
+    def _value(self):
         return int(self.thumb) << 0
+
+class I386CodeFlags(CodeFlags):
+    @property
+    def _value(self):
+        return 0
 
 _libqemu_load_func = CFUNCTYPE(c_uint64, c_void_p, c_uint64, c_uint, c_bool, c_bool)
 _libqemu_store_func = CFUNCTYPE(None, c_void_p, c_uint64, c_uint, c_bool, c_bool, c_uint64)
@@ -44,8 +56,8 @@ class LibqemuError(RuntimeError):
         self.code = errorcode
 
 class Libqemu():
-    def __init__(self, load_callback, library):
-        self._handle = CDLL(library)
+    def __init__(self, load_callback, arch):
+        self._handle = _get_library(arch)
         
         self._handle.libqemu_init.argtypes = [_libqemu_load_func, _libqemu_store_func]
         self._handle.libqemu_init.restype = c_int 
