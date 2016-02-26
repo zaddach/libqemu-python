@@ -27,28 +27,11 @@ versioneer.parentdir_prefix = 'llvmlite-' # dirname like 'myproject-1.2.0'
 
 
 here_dir = os.path.dirname(__file__)
-build_dir = "%s%sbuild_ext" % (here_dir, "/" if here_dir else "")
 
 
 cmdclass = versioneer.get_cmdclass()
 build = cmdclass.get('build', build)
 build_ext = cmdclass.get('build_ext', build_ext)
-
-def get_sosuffix():
-    if os.name == 'posix':
-        if sys.platform == 'darwin':
-            return "dylib"
-        else:
-            return 'so'
-    else:
-        assert os.name == 'nt'
-        return 'dll'
-
-
-def get_library_files():
-    architectures = ["arm"]
-    soext = get_sosuffix()
-    return ["%s/%s-lib/libqemu-%s.%s" % (build_dir, x, x, soext) for x in architectures]
 
 class LibqemuBuild(build):
 
