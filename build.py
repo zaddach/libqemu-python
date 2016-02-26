@@ -4,7 +4,7 @@ import glob
 import shutil
 import itertools
 
-CONFIGURE_PARAMS = ["--target-list=arm-lib", "--enable-lib"]
+CONFIGURE_PARAMS = ["--target-list=arm-lib,i386-lib,x86_64-lib", "--enable-lib"]
 
 def main(args, env):
     
